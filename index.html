@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://corpferdalvarado.github.io/portaltest/?k=4928 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title></title>
+  <link rel="stylesheet" href="style.css">
+</head>
+  <body><a></a>
+  <p id="miParrafo"> Espere... </p>
+  <div id="visor"><iframe src="preview.html" width="100%" height="600"></iframe></div>
+  
+    
+    <script>
+      const AS_URL_BASE = "https://script.google.com/macros/s/AKfycby4EVqNTNZAG2tjJx6W_p7oYM8vXsj1OoV2idXMuuhL6ZWFYoUMqe5wO83IS9g1beGD/exec";
+      
+      async function mostrarPDF() {
+        var url = document.location.href;
+        const codigo = url.substr(url.lastIndexOf("k=")+2);
+        const visor = document.getElementById("visor");
+        
+        visor.innerHTML = "<p>Buscando...</p>";
+        
+        //document.getElementById("miParrafo").innerHTML = codigo;
+        
+        try {       
+            
+          const res = await fetch(`${AS_URL_BASE}?codigo=${encodeURIComponent(codigo)}`);
+          const data = await res.json();
+          
+          if (data.url) {
+            visor.innerHTML = `<iframe src="${data.url}" width="100%" height="600"></iframe>`;
+            document.getElementById("Imagen").style.display = "none";
+            document.getElementById("load").style.display = "none";
+          } else {
+            visor.innerHTML = `<p style="color:red;">${data.error || "Error desconocido"}</p>`;
+          }
+        } catch (err) {
+          visor.innerHTML = `<p style="color:red;">${err || "  /  Error de conexión con el servidor."} </p>`;          
+        }
+      }    
+    
+      mostrarPDF();
+    </script>
+    <div class="vertical">  
+        
+        <div id="Imagen" class="box" style="display: none;">
+          <img src="Data.png" class="responsive">          
+        </div>
+        <div id="load" class=" load" style="display: none;">
+          <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>    
+        </div>
+    </div>
+    
+  
+
+
+</body></html>
